@@ -13,7 +13,7 @@ import (
 
 var movies = model.MovieList
 
-func getMovies(w http.ResponseWriter, r *http.Request) {
+func GetMovies(w http.ResponseWriter, r *http.Request) {
 	// Print the response body
 	fmt.Printf("Request body %v\n", r.Body)
 
@@ -23,7 +23,7 @@ func getMovies(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(movies)
 }
 
-func getMovie(w http.ResponseWriter, r *http.Request) {
+func GetMovie(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
 	// Set the content type as "application/json"
@@ -37,7 +37,7 @@ func getMovie(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func deleteMovie(w http.ResponseWriter, r *http.Request) {
+func DeleteMovie(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 
@@ -56,7 +56,7 @@ func deleteMovie(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(movies)
 }
 
-func createMovie(w http.ResponseWriter, r *http.Request) {
+func CreateMovie(w http.ResponseWriter, r *http.Request) {
 
 	var movie model.Movie
 
@@ -73,7 +73,7 @@ func createMovie(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(movies)
 }
 
-func updateMovie(w http.ResponseWriter, r *http.Request) {
+func UpdateMovie(w http.ResponseWriter, r *http.Request) {
 
 	var movie model.Movie
 
