@@ -10,14 +10,16 @@ import (
 )
 
 func main() {
-	fmt.Printf("Starting server at port 8000\n")
+	portNumber := "8080"
+	fmt.Printf("Starting server at port %v\n", portNumber)
+
 	r := mux.NewRouter()
-	r.HandleFunc("/movies", crudaction.GetMovies).Methods("GET")
-	r.HandleFunc("/movies/{id}", crudaction.GetMovie).Methods("GET")
+	r.HandleFunc("/animes", crudaction.GetAnimes).Methods("GET")
+	r.HandleFunc("/animes/{id}", crudaction.GetAnime).Methods("GET")
 
-	r.HandleFunc("/movies", crudaction.CreateMovie).Methods("POST")
-	r.HandleFunc("/movies/{id}", crudaction.UpdateMovie).Methods("PUT")
+	r.HandleFunc("/animes", crudaction.CreateAnime).Methods("POST")
+	r.HandleFunc("/animes/{id}", crudaction.UpdateAnime).Methods("PUT")
 
-	r.HandleFunc("/movies/{id}", crudaction.DeleteMovie).Methods("DELETE")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	r.HandleFunc("/animes/{id}", crudaction.DeleteAnime).Methods("DELETE")
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%v", portNumber), r))
 }

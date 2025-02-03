@@ -3,99 +3,106 @@ package crudaction
 import (
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"net/http"
 	"simpleCrud/model"
-	"strconv"
+	"simpleCrud/utils"
 
 	"github.com/gorilla/mux"
 )
 
-var movies = model.MovieList
+var Animes = model.AnimeList
 
-func GetMovies(w http.ResponseWriter, r *http.Request) {
+func GetAnimes(w http.ResponseWriter, r *http.Request) {
 	// Print the response body
 	fmt.Printf("Request body %v\n", r.Body)
 
 	// Set the content type and
-	// encode the slice of movies into "w" i.e. Response Writer
+	// encode the slice of Animes into "w" i.e. Response Writer
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(movies)
+	json.NewEncoder(w).Encode(Animes)
 }
 
-func GetMovie(w http.ResponseWriter, r *http.Request) {
+func GetAnime(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
 	// Set the content type as "application/json"
 	w.Header().Set("Content-Type", "application/json")
-	for _, item := range movies {
+	for _, item := range Animes {
 		if item.ID == params["id"] {
-			// Encode the slice of movies into "w" i.e. Response Writer
+			// Encode the slice of Animes into "w" i.e. Response Writer
 			json.NewEncoder(w).Encode(item)
 			return
 		}
 	}
 }
 
-func DeleteMovie(w http.ResponseWriter, r *http.Request) {
+func DeleteAnime(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 
 	// Check for the ID that needs to be deleted
-	for index, item := range movies {
+	for index, item := range Animes {
 		if item.ID == params["id"] {
 			// Delete the record from the slice
-			movies = append(movies[:index], movies[index+1:]...)
+			Animes = append(Animes[:index], Animes[index+1:]...)
 			break
 		}
 	}
 
 	// Set the content type and
-	// encode the slice of movies into "w" i.e. Response Writer
+	// encode the slice of Animes into "w" i.e. Response Writer
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(movies)
+	json.NewEncoder(w).Encode(Animes)
 }
 
-func CreateMovie(w http.ResponseWriter, r *http.Request) {
+func CreateAnime(w http.ResponseWriter, r *http.Request) {
 
-	var movie model.Movie
+	var Anime model.Anime
 
-	// Populate the new movie record(request) into the movie variable
-	json.NewDecoder(r.Body).Decode(&movie)
+	// Populate the new Anime record(request) into the Anime variable
+	json.NewDecoder(r.Body).Decode(&Anime)
 
-	// Create an ID for the new Movie that's been added
-	movie.ID = strconv.Itoa(rand.Intn(10000))
-	movies = append(movies, movie)
+	// Increment the total anime stored
+	model.TotalAnime++
+	fmt.Println(model.TotalAnime)
+	// Check if ID provided in Request body is used
+	if utils.CheckID(Anime.ID, Animes) {
+
+		// Create an ID for the new Anime that's been added
+		Anime.ID = model.CreateID()
+	}
+
+	Animes = append(Animes, Anime)
 
 	// Set the content type and
-	// encode the slice of movies into "w" i.e. Response Writer
+	// encode the slice of Animes into "w" i.e. Response Writer
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(movies)
+	json.NewEncoder(w).Encode(Animes)
 }
 
-func UpdateMovie(w http.ResponseWriter, r *http.Request) {
+func UpdateAnime(w http.ResponseWriter, r *http.Request) {
 
-	var movie model.Movie
+	var Anime model.Anime
 
 	params := mux.Vars(r)
 
-	// Check for the Movie ID that needs to be updated
-	for index, item := range movies {
+	// Check for the Anime ID that needs to be updated
+	for index, item := range Animes {
 		if item.ID == params["id"] {
 			// Delete the record from the slice
-			movies = append(movies[:index], movies[index+1:]...)
+			Animes = append(Animes[:index], Animes[index+1:]...)
 			break
 		}
 	}
 
-	// Populate the updated request into the movie variable
-	json.NewDecoder(r.Body).Decode(&movie)
-	movie.ID = params["id"]
-	// Append the update movie to the existing slice of movie
-	movies = append(movies, movie)
+	// Populate the updated request into the Anime variable
+	json.NewDecoder(r.Body).Decode(&Anime)
+	Anime.ID = params["id"]
+	// Append the update Anime to the existing slice of Anime
+	Animes = append(Animes, Anime)
 
 	// Set the content type and
-	// encode the slice of movies into "w" i.e. Response Writer
+	// encode the slice of Animes into "w" i.e. Response Writer
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(movies)
+	json.NewEncoder(w).Encode(Animes)
 }

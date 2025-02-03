@@ -1,18 +1,29 @@
 package model
 
-type Movie struct {
-	ID       string    `json: "id"`
-	Isbn     string    `json: "isbn"`
-	Title    string    `json: "title"`
-	Director *Director `json: "director"`
+import (
+	"math/rand"
+	"strconv"
+)
+
+type Anime struct {
+	ID            string     `json:"id"`
+	Isbn          string     `json:"isbn"`
+	Title         string     `json:"title"`
+	MainCharacter *Character `json:"maincharacter"`
 }
 
-type Director struct {
-	Firstname string `json: "firstname"`
-	Lastname  string `json: "lastname"`
+type Character struct {
+	FirstName string `json:"firstname"`
+	LastName  string `json:"lastname"`
 }
 
-var MovieList = []Movie{
-	{ID: "1", Isbn: "23401", Title: "One Piece", Director: &Director{Firstname: "Luffy", Lastname: "Monkey D"}},
-	{ID: "2", Isbn: "321451", Title: "Fairy Tail", Director: &Director{Firstname: "Natsu", Lastname: "Dragoneel"}},
+func CreateID() string {
+	return strconv.Itoa(rand.Intn(1000))
 }
+
+var AnimeList = []Anime{
+	{ID: CreateID(), Isbn: "23401", Title: "One Piece", MainCharacter: &Character{FirstName: "Luffy", LastName: "Monkey D"}},
+	{ID: CreateID(), Isbn: "321451", Title: "Fairy Tail", MainCharacter: &Character{FirstName: "Natsu", LastName: "Dragoneel"}},
+}
+
+var TotalAnime = len(AnimeList)
