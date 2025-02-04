@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"simpleCrud/crudaction"
-	"simpleCrud/model"
-	"simpleCrud/utils"
+	"simplecrud/crudaction"
+	"simplecrud/model"
+	"simplecrud/utils"
 
 	"github.com/gorilla/mux"
 )

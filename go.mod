@@ -1,4 +1,4 @@
-module simpleCrud
+module simplecrud
 
 go 1.23.3
 

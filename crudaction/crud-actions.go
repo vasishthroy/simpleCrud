@@ -3,8 +3,8 @@ package crudaction
 import (
 	"encoding/json"
 	"net/http"
-	"simpleCrud/model"
-	"simpleCrud/utils"
+	"simplecrud/model"
+	"simplecrud/utils"
 
 	"github.com/gorilla/mux"
 )

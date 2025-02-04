@@ -2,7 +2,7 @@ package utils
 
 import (
 	"math/rand"
-	"simpleCrud/model"
+	"simplecrud/model"
 	"strconv"
 )
 
