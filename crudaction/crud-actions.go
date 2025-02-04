@@ -12,8 +12,6 @@ import (
 var Animes = model.AnimeList
 
 func GetAnimes(w http.ResponseWriter, r *http.Request) {
-	// // Print the response body
-	// fmt.Printf("Request body %v\n", r.Body)
 
 	// Set the content type and
 	// encode the slice of Animes into "w" i.e. Response Writer
@@ -26,8 +24,11 @@ func GetAnime(w http.ResponseWriter, r *http.Request) {
 
 	// Set the content type as "application/json"
 	w.Header().Set("Content-Type", "application/json")
+
+	// Check for the ID to be fetched by looping through Animes slice
 	for _, item := range Animes {
 		if item.ID == params["id"] {
+
 			// Encode the slice of Animes into "w" i.e. Response Writer
 			json.NewEncoder(w).Encode(item)
 			return
@@ -39,9 +40,10 @@ func DeleteAnime(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 
-	// Check for the ID that needs to be deleted
+	// Check for the ID that needs to be deleted by looping through Animes slice
 	for index, item := range Animes {
 		if item.ID == params["id"] {
+
 			// Delete the record from the slice
 			Animes = append(Animes[:index], Animes[index+1:]...)
 			break
@@ -85,7 +87,7 @@ func UpdateAnime(w http.ResponseWriter, r *http.Request) {
 	// Check for the Anime ID that needs to be updated
 	for index, item := range Animes {
 		if item.ID == params["id"] {
-			// Delete the record from the slice
+			// Delete the record from the Animes slice
 			Animes = append(Animes[:index], Animes[index+1:]...)
 			break
 		}
@@ -93,12 +95,14 @@ func UpdateAnime(w http.ResponseWriter, r *http.Request) {
 
 	// Populate the updated request into the Anime variable
 	json.NewDecoder(r.Body).Decode(&Anime)
+
 	Anime.ID = params["id"]
+
 	// Append the update Anime to the existing slice of Anime
 	Animes = append(Animes, Anime)
 
 	// Set the content type and
-	// encode the slice of Animes into "w" i.e. Response Writer
+	// Encode the slice of Animes into "w" i.e. Response Writer
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(Animes)
 }
