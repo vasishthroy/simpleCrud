@@ -2,7 +2,6 @@ package crudaction
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"simpleCrud/model"
 	"simpleCrud/utils"
@@ -13,8 +12,8 @@ import (
 var Animes = model.AnimeList
 
 func GetAnimes(w http.ResponseWriter, r *http.Request) {
-	// Print the response body
-	fmt.Printf("Request body %v\n", r.Body)
+	// // Print the response body
+	// fmt.Printf("Request body %v\n", r.Body)
 
 	// Set the content type and
 	// encode the slice of Animes into "w" i.e. Response Writer
@@ -62,14 +61,11 @@ func CreateAnime(w http.ResponseWriter, r *http.Request) {
 	// Populate the new Anime record(request) into the Anime variable
 	json.NewDecoder(r.Body).Decode(&Anime)
 
-	// Increment the total anime stored
-	model.TotalAnime++
-	fmt.Println(model.TotalAnime)
 	// Check if ID provided in Request body is used
 	if utils.CheckID(Anime.ID, Animes) {
 
 		// Create an ID for the new Anime that's been added
-		Anime.ID = model.CreateID()
+		Anime.ID = utils.CreateID()
 	}
 
 	Animes = append(Animes, Anime)

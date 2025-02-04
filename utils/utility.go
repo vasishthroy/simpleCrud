@@ -1,6 +1,10 @@
 package utils
 
-import "simpleCrud/model"
+import (
+	"math/rand"
+	"simpleCrud/model"
+	"strconv"
+)
 
 func CheckID(id string, data []model.Anime) bool {
 	for _, item := range data {
@@ -9,4 +13,8 @@ func CheckID(id string, data []model.Anime) bool {
 		}
 	}
 	return false
+}
+
+func CreateID() string {
+	return strconv.Itoa(rand.Intn(1000))
 }
