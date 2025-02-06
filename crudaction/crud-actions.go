@@ -39,16 +39,7 @@ func GetAnime(w http.ResponseWriter, r *http.Request) {
 func DeleteAnime(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
-
-	// Check for the ID that needs to be deleted by looping through Animes slice
-	for index, item := range Animes {
-		if item.ID == params["id"] {
-
-			// Delete the record from the slice
-			Animes = append(Animes[:index], Animes[index+1:]...)
-			break
-		}
-	}
+	utils.DeleteRecord(params["id"], &Animes)
 
 	// Set the content type and
 	// encode the slice of Animes into "w" i.e. Response Writer
@@ -64,7 +55,7 @@ func CreateAnime(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&Anime)
 
 	// Check if ID provided in Request body is used
-	if utils.CheckID(Anime.ID, Animes) {
+	if utils.CheckID(Anime.ID, &Animes) {
 
 		// Create an ID for the new Anime that's been added
 		Anime.ID = utils.CreateID()
@@ -85,13 +76,7 @@ func UpdateAnime(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 
 	// Check for the Anime ID that needs to be updated
-	for index, item := range Animes {
-		if item.ID == params["id"] {
-			// Delete the record from the Animes slice
-			Animes = append(Animes[:index], Animes[index+1:]...)
-			break
-		}
-	}
+	utils.DeleteRecord(params["id"], &Animes)
 
 	// Populate the updated request into the Anime variable
 	json.NewDecoder(r.Body).Decode(&Anime)
